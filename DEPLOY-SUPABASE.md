@@ -15,14 +15,38 @@ alterar uma variável de ambiente**.
 
 ## 2. Criar as tabelas (uma única vez)
 
-Na raiz do projeto, com a conexão **direta**:
+### Opção A — pelo arquivo SQL (recomendado)
+
+O arquivo está no repositório: **`sql/schema-arquivo-morto-supabase.sql`**.
+Também dá para abrir/copiar pelo sistema: **Backup e restauração → “Script SQL do banco” → Ver script SQL**.
+
+1. Supabase → **SQL Editor** → **New query**
+2. Cole o conteúdo do arquivo e clique em **RUN**
+3. No fim aparece a conferência com as 3 tabelas e a contagem de registros
+
+O script é **idempotente** (pode rodar quantas vezes quiser, sem apagar nada) e não usa nenhuma
+extensão do PostgreSQL — só recursos padrão (serial, timestamptz, jsonb, índices, constraint única).
+
+### Opção B — por linha de comando
 
 ```bash
+# executa exatamente o mesmo schema usando o Node
 DATABASE_URL="postgresql://postgres:SENHA@db.SEUPROJETO.supabase.co:5432/postgres" \
   node scripts/setup-supabase.mjs
+
+# ou direto pelo psql
+psql "postgresql://postgres:SENHA@db.SEUPROJETO.supabase.co:5432/postgres" \
+  -v ON_ERROR_STOP=1 -f sql/schema-arquivo-morto-supabase.sql
 ```
 
-O script é idempotente (pode rodar quantas vezes quiser) e cria:
+### Opção C — pelo Drizzle (schema TypeScript como fonte)
+
+```bash
+DATABASE_URL="postgresql://...:5432/postgres" \
+  npx drizzle-kit push --dialect postgresql --schema ./src/db/schema.ts --url "$DATABASE_URL"
+```
+
+Tabelas criadas:
 
 | Tabela | Conteúdo |
 |---|---|
@@ -30,12 +54,6 @@ O script é idempotente (pode rodar quantas vezes quiser) e cria:
 | `importacoes` | auditoria de importações, restaurações e backups |
 | `backup_arquivos` | cópias de segurança guardadas dentro do sistema (máx. 10, as antigas são podadas) |
 
-Alternativa com Drizzle (usa o schema TypeScript como fonte da verdade):
-
-```bash
-DATABASE_URL="postgresql://...:5432/postgres" \
-  npx drizzle-kit push --dialect postgresql --schema ./src/db/schema.ts --url "$DATABASE_URL"
-```
 
 ## 3. Configurar a aplicação
 

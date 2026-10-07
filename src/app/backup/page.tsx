@@ -1,6 +1,7 @@
 import { AppShell } from "@/components/AppShell";
 import { BancoPanel } from "@/components/BancoPanel";
 import { BackupView } from "@/components/BackupView";
+import { ScriptSqlCartao } from "@/components/ScriptSqlCartao";
 import { obterInfoBanco } from "@/lib/server/diagnostico";
 import { listarBackupsSalvos } from "@/lib/server/backup";
 import { obterEstatisticas, listarImportacoes } from "@/lib/server/prontuarios";
@@ -26,6 +27,7 @@ export default async function PaginaBackup() {
           historico={historico}
           copiasSalvas={copiasSalvas}
         />
+        <ScriptSqlCartao />
         <BancoPanel info={infoBanco} />
       </div>
     </AppShell>
