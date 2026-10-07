@@ -1,5 +1,6 @@
 import { normalizarLetra, obterIndiceLetras } from "@/lib/server/prontuarios";
 import type { CampoIndice } from "@/lib/types";
+import { respostaErro } from "@/lib/server/erros";
 
 export const dynamic = "force-dynamic";
 
@@ -25,7 +26,6 @@ export async function GET(request: Request) {
       letras,
     });
   } catch (erro) {
-    console.error("[prontuarios:indice]", erro);
-    return Response.json({ mensagem: "Não foi possível montar o índice alfabético." }, { status: 500 });
+    return respostaErro("prontuarios:indice", erro, "Não foi possível montar o índice alfabético.");
   }
 }

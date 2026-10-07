@@ -1,4 +1,5 @@
 import { listarImportacoes, obterEstatisticas } from "@/lib/server/prontuarios";
+import { respostaErro } from "@/lib/server/erros";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,6 @@ export async function GET(request: Request) {
     const historico = await listarImportacoes(Number.isFinite(limite) ? Math.min(limite, 50) : 10);
     return Response.json({ estatisticas, historico });
   } catch (erro) {
-    console.error("[estatisticas:GET]", erro);
-    return Response.json({ mensagem: "Não foi possível carregar os indicadores." }, { status: 500 });
+    return respostaErro("estatisticas:GET", erro, "Não foi possível carregar os indicadores.");
   }
 }

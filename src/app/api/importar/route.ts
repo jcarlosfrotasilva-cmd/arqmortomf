@@ -4,6 +4,7 @@ import { importacoes, prontuarios } from "@/db/schema";
 import { analisarPlanilha, type LinhaPlanilha } from "@/lib/server/planilha";
 import { normalizeText } from "@/lib/text";
 import type { LinhaPrevia, ResultadoImportacao } from "@/lib/types";
+import { respostaErro } from "@/lib/server/erros";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -189,10 +190,6 @@ export async function POST(request: Request) {
       avisos: analise.avisos,
     });
   } catch (erro) {
-    console.error("[importar:POST]", erro);
-    return Response.json(
-      { mensagem: "Falha ao gravar os dados na base. Nenhuma linha foi importada." },
-      { status: 500 },
-    );
+    return respostaErro("importar:POST", erro, "Falha ao gravar os dados na base. Nenhuma linha foi importada.");
   }
 }

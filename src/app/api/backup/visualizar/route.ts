@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { importacoes } from "@/db/schema";
 import { montarBackup, nomeArquivoBackup } from "@/lib/server/backup";
+import { respostaErro } from "@/lib/server/erros";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -37,7 +38,6 @@ export async function GET(request: Request) {
       },
     });
   } catch (erro) {
-    console.error("[backup:visualizar]", erro);
-    return Response.json({ mensagem: "Não foi possível montar o backup do acervo." }, { status: 500 });
+    return respostaErro("backup:visualizar", erro, "Não foi possível montar o backup do acervo.");
   }
 }

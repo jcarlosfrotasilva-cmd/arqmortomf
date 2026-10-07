@@ -2,6 +2,7 @@ import {
   listarBackupsSalvos,
   salvarBackupNoSistema,
 } from "@/lib/server/backup";
+import { respostaErro } from "@/lib/server/erros";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -12,8 +13,7 @@ export async function GET() {
     const backups = await listarBackupsSalvos(20);
     return Response.json({ backups });
   } catch (erro) {
-    console.error("[backup:arquivos:GET]", erro);
-    return Response.json({ mensagem: "Não foi possível listar as cópias guardadas." }, { status: 500 });
+    return respostaErro("backup:arquivos:GET", erro, "Não foi possível listar as cópias guardadas.");
   }
 }
 
@@ -23,7 +23,6 @@ export async function POST() {
     const backup = await salvarBackupNoSistema();
     return Response.json({ backup }, { status: 201 });
   } catch (erro) {
-    console.error("[backup:arquivos:POST]", erro);
-    return Response.json({ mensagem: "Não foi possível guardar a cópia no sistema." }, { status: 500 });
+    return respostaErro("backup:arquivos:POST", erro, "Não foi possível guardar a cópia no sistema.");
   }
 }

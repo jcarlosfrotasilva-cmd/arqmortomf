@@ -1,6 +1,7 @@
 import ExcelJS from "exceljs";
 import { ESCOLA } from "@/lib/escola";
 import { listarProntuariosParaExportacao, parseFiltros } from "@/lib/server/prontuarios";
+import { respostaErro } from "@/lib/server/erros";
 
 export const dynamic = "force-dynamic";
 
@@ -79,7 +80,6 @@ export async function GET(request: Request) {
       },
     });
   } catch (erro) {
-    console.error("[prontuarios:exportar]", erro);
-    return Response.json({ mensagem: "Não foi possível gerar o arquivo de exportação." }, { status: 500 });
+    return respostaErro("prontuarios:exportar", erro, "Não foi possível gerar o arquivo de exportação.");
   }
 }

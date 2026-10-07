@@ -2,6 +2,7 @@ import { inArray } from "drizzle-orm";
 import { db } from "@/db";
 import { prontuarios } from "@/db/schema";
 import { validarIds } from "@/lib/server/validacao";
+import { respostaErro } from "@/lib/server/erros";
 
 export const dynamic = "force-dynamic";
 
@@ -26,7 +27,6 @@ export async function POST(request: Request) {
 
     return Response.json({ removidos: removidos.length });
   } catch (erro) {
-    console.error("[prontuarios:lote:DELETE]", erro);
-    return Response.json({ mensagem: "Não foi possível excluir os prontuários selecionados." }, { status: 500 });
+    return respostaErro("prontuarios:lote:DELETE", erro, "Não foi possível excluir os prontuários selecionados.");
   }
 }

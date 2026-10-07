@@ -84,3 +84,52 @@ export function BancoPanel({ info }: { info: InfoBanco }) {
     </Cartao>
   );
 }
+
+/** Orientações de contingência para queda de energia ou de internet. */
+export function PainelContingencia() {
+  const itens = [
+    {
+      titulo: "Faltou energia ou internet na escola",
+      texto:
+        "O sistema continua salvo no servidor: nada se perde. Ao voltar a conexão, recarregue a página e os dados estarão exatamente como estavam. Enquanto isso, o aparelho mostra a última consulta que ficou guardada.",
+    },
+    {
+      titulo: "Use pelo celular ou tablet",
+      texto:
+        "O sistema é responsivo (cartões no celular, tabela no computador) e pode ser instalado como aplicativo: no Android use “Instalar aplicativo”; no iPhone use Compartilhar → “Adicionar à Tela de Início”.",
+    },
+    {
+      titulo: "Rotina de segurança recomendada",
+      texto:
+        "Uma vez por semana gere uma cópia em “Guardar cópia no sistema” e baixe o .json no computador da secretaria. Guarde também uma versão impressa (ou PDF) da relação completa.",
+    },
+    {
+      titulo: "Para trabalhar sem internet nenhuma",
+      texto:
+        "O sistema pode rodar em um computador da escola com PostgreSQL local. Nesse caso ele funciona na rede interna (mesmo sem internet), e a cópia .json serve para transferir os dados quando houver conexão.",
+    },
+  ];
+
+  return (
+    <Cartao className="p-5">
+      <h2 className="text-sm font-semibold text-slate-900">
+        Se faltar energia ou internet (plano de contingência)
+      </h2>
+      <p className="mt-0.5 text-xs text-slate-500">
+        Como o arquivo morto continua protegido e o que fazer na volta da conexão.
+      </p>
+
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        {itens.map((item) => (
+          <div
+            key={item.titulo}
+            className="rounded-xl border border-slate-200 bg-slate-50/70 p-3.5"
+          >
+            <p className="text-xs font-semibold text-teal-800">{item.titulo}</p>
+            <p className="mt-1 text-xs leading-relaxed text-slate-600">{item.texto}</p>
+          </div>
+        ))}
+      </div>
+    </Cartao>
+  );
+}

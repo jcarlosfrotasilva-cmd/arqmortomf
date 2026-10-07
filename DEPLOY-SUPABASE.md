@@ -111,3 +111,52 @@ Há dois caminhos, ambos sem perder nada:
   e scripts.
 - **Espaço**: 6.850 prontuários ocupam poucos MB; cada cópia interna de backup fica em torno de 1–2 MB
   e o sistema mantém no máximo 10.
+
+---
+
+## 7. Uso no celular e tablet
+
+O sistema é **responsivo** e **instalável como aplicativo** (PWA):
+
+- **Celular**: os registros aparecem em **cartões empilhados** (nome, sobrenome, RM em destaque,
+  observações e botões de editar/excluir com área de toque confortável). Nada de rolar a tela para
+  os lados.
+- **Tablet e computador**: a tabela completa com todas as colunas.
+- Menu lateral vira um botão “hambúrguer” no topo em telas pequenas.
+- A régua alfabética A–Z, os filtros e a pré-visualização de impressão se reorganizam
+  automaticamente em uma ou duas colunas.
+- Título da aba, ícone do app e cor do tema já configurados (`#0f766e`).
+
+### Instalar no aparelho
+
+| Aparelho | Como instalar |
+|---|---|
+| Android (Chrome) | abra o endereço → menu ⋮ → **Instalar aplicativo** |
+| iPhone / iPad (Safari) | abra o endereço → **Compartilhar** → **Adicionar à Tela de Início** |
+| Windows / Mac (Chrome/Edge) | ícone de instalação na barra de endereços |
+
+Depois de instalado, o ícone “Arquivo Morto” aparece na tela inicial e abre em tela cheia, com
+atalhos diretos para *Consultar*, *Imprimir* e *Backup*.
+
+## 8. Falta de energia ou de internet
+
+**Os dados nunca ficam no aparelho do operador: ficam no PostgreSQL do servidor.** Se faltar energia
+na escola ou a internet cair:
+
+1. Nada é perdido — o servidor e o banco continuam íntegros.
+2. O banco é recuperado automaticamente ao voltar (o sistema já tem reconexão automática e
+   mensagens claras de “banco indisponível” em vez de erro 500).
+3. A aplicação guarda **a última consulta** no aparelho (cache do service worker + cópia local) e
+   mostra um aviso amarelo *“Sem conexão — exibindo a última consulta salva”*, então a secretaria
+   ainda consegue ler o último resultado de busca.
+4. Ao voltar a conexão, basta recarregar a página: tudo está no servidor.
+
+### Recomendações de operação (escola)
+
+- Instale um **nobreak (UPS)** no roteador e no computador da secretaria.
+- **Uma vez por semana**: *Backup e restauração* → **Guardar cópia no sistema** (fica no servidor) e
+  **Salvar no computador…** (arquivo `.json` no computador ou na nuvem da escola).
+- Mantenha uma **relação impressa** (ou PDF) atualizada — útil quando não houver energia.
+- Se a escola precisar operar **sem internet nenhuma**, o sistema pode rodar em um computador local
+  com PostgreSQL na mesma rede: funciona pelo navegador dos outros aparelhos, e o `.json` serve para
+  sincronizar quando houver conexão.

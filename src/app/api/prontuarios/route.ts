@@ -3,6 +3,7 @@ import { db } from "@/db";
 import { prontuarios } from "@/db/schema";
 import { listarProntuarios, parseFiltros, serializeProntuario } from "@/lib/server/prontuarios";
 import { dadosParaBanco, validarProntuario } from "@/lib/server/validacao";
+import { respostaErro } from "@/lib/server/erros";
 
 export const dynamic = "force-dynamic";
 
@@ -14,8 +15,7 @@ export async function GET(request: Request) {
     const lista = await listarProntuarios(filtros);
     return Response.json(lista);
   } catch (erro) {
-    console.error("[prontuarios:GET]", erro);
-    return Response.json({ mensagem: "Não foi possível consultar os prontuários." }, { status: 500 });
+    return respostaErro("prontuarios:GET", erro, "Não foi possível consultar os prontuários.");
   }
 }
 
@@ -61,7 +61,6 @@ export async function POST(request: Request) {
 
     return Response.json({ prontuario: serializeProntuario(criado) }, { status: 201 });
   } catch (erro) {
-    console.error("[prontuarios:POST]", erro);
-    return Response.json({ mensagem: "Não foi possível cadastrar o prontuário." }, { status: 500 });
+    return respostaErro("prontuarios:POST", erro, "Não foi possível cadastrar o prontuário.");
   }
 }

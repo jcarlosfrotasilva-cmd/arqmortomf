@@ -1,5 +1,5 @@
 import { AppShell } from "@/components/AppShell";
-import { BancoPanel } from "@/components/BancoPanel";
+import { BancoPanel, PainelContingencia } from "@/components/BancoPanel";
 import { BackupView } from "@/components/BackupView";
 import { ScriptSqlCartao } from "@/components/ScriptSqlCartao";
 import { obterInfoBanco } from "@/lib/server/diagnostico";
@@ -29,6 +29,7 @@ export default async function PaginaBackup() {
         />
         <ScriptSqlCartao />
         <BancoPanel info={infoBanco} />
+        <PainelContingencia />
       </div>
     </AppShell>
   );

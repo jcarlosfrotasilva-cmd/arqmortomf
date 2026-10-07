@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { cx, filtrosParaQueryString, requisitar } from "@/lib/client/api";
 import { Botao, CampoSelect, Etiqueta, Modal, Vazio } from "@/components/ui";
 import { IndiceAlfabetico } from "@/components/IndiceAlfabetico";
+import { SeloOffline } from "@/components/ServicoApp";
 import {
   IconChevronLeft,
   IconChevronRight,
@@ -44,6 +45,7 @@ export function ResultadosModal({
   const [ordenarPor, setOrdenarPor] = useState<Ordenacao>("sobrenome");
   const [resposta, setResposta] = useState<{ query: string; lista: ListaProntuarios } | null>(null);
   const [erro, setErro] = useState<string | null>(null);
+  const [offline, setOffline] = useState(false);
   const [letra, setLetra] = useState("");
   const [campoLetra, setCampoLetra] = useState<CampoIndice>("sobrenome");
   const [indiceResposta, setIndiceResposta] = useState<{
@@ -98,15 +100,34 @@ export function ResultadosModal({
   useEffect(() => {
     const controlador = new AbortController();
 
-    requisitar<ListaProntuarios>(`/api/prontuarios?${query}`, { signal: controlador.signal })
-      .then((dados) => {
+    (async () => {
+      try {
+        const dados = await requisitar<ListaProntuarios>(`/api/prontuarios?${query}`, {
+          signal: controlador.signal,
+        });
         setResposta({ query, lista: dados });
         setErro(null);
-      })
-      .catch((falha: unknown) => {
+      } catch (falha) {
         if (falha instanceof DOMException && falha.name === "AbortError") return;
+
+        // Sem servidor: usa a última resposta guardada pelo service worker.
+        try {
+          if (typeof caches !== "undefined") {
+            const guardada = await caches.match(`/api/prontuarios?${query}`);
+            if (guardada) {
+              setResposta({ query, lista: (await guardada.json()) as ListaProntuarios });
+              setErro(null);
+              setOffline(true);
+              return;
+            }
+          }
+        } catch {
+          /* cache indisponível */
+        }
+
         setErro(falha instanceof Error ? falha.message : "Não foi possível concluir a consulta.");
-      });
+      }
+    })();
 
     return () => controlador.abort();
   }, [query, refreshKey]);
@@ -182,6 +203,7 @@ export function ResultadosModal({
                 Página {lista.pagina} de {lista.totalPaginas}
               </span>
             ) : null}
+            {offline ? <SeloOffline /> : null}
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <CampoSelect

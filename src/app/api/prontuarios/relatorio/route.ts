@@ -1,4 +1,5 @@
 import { listarProntuariosParaExportacao, parseFiltros } from "@/lib/server/prontuarios";
+import { respostaErro } from "@/lib/server/erros";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +23,6 @@ export async function GET(request: Request) {
       },
     });
   } catch (erro) {
-    console.error("[relatorio:GET]", erro);
-    return Response.json({ mensagem: "Não foi possível gerar a relação para impressão." }, { status: 500 });
+    return respostaErro("relatorio:GET", erro, "Não foi possível gerar a relação para impressão.");
   }
 }

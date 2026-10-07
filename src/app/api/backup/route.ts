@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { importacoes } from "@/db/schema";
 import { nomeArquivoBackup, montarBackup, VERSAO_BACKUP } from "@/lib/server/backup";
+import { respostaErro } from "@/lib/server/erros";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -32,7 +33,6 @@ export async function GET() {
       },
     });
   } catch (erro) {
-    console.error("[backup:GET]", erro);
-    return Response.json({ mensagem: "Não foi possível gerar o backup do acervo." }, { status: 500 });
+    return respostaErro("backup:GET", erro, "Não foi possível gerar o backup do acervo.");
   }
 }

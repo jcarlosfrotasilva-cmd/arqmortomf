@@ -11,6 +11,7 @@ import {
   type LinhaRestauracao,
 } from "@/lib/server/backup";
 import type { LinhaPrevia } from "@/lib/types";
+import { respostaErro } from "@/lib/server/erros";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -254,10 +255,6 @@ export async function POST(request: Request) {
 
     return Response.json({ ...resultado, confirmada: true, importacaoId });
   } catch (erro) {
-    console.error("[backup:restaurar]", erro);
-    return Response.json(
-      { mensagem: "Falha ao restaurar o backup. Nenhuma alteração foi aplicada ao acervo." },
-      { status: 500 },
-    );
+    return respostaErro("backup:restaurar", erro, "Falha ao restaurar o backup. Nenhuma alteração foi aplicada ao acervo.");
   }
 }

@@ -15,6 +15,7 @@ import {
   IconShield,
   IconUpload,
 } from "@/components/icons";
+import { ServicoApp } from "@/components/ServicoApp";
 import { ToastProvider } from "@/components/toast";
 
 const NAVEGACAO = [
@@ -170,6 +171,7 @@ export function AppShell({
 
   return (
     <ToastProvider>
+      <ServicoApp />
       <div className="flex min-h-screen bg-[#f4f9f8]">
         <aside
           className={cx(
