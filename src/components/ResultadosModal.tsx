@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { cx, filtrosParaQueryString, requisitar } from "@/lib/client/api";
 import { Botao, CampoSelect, Etiqueta, Modal, Vazio } from "@/components/ui";
 import { IndiceAlfabetico } from "@/components/IndiceAlfabetico";
+import { RmDestaque } from "@/components/RmDestaque";
 import { SeloOffline } from "@/components/ServicoApp";
 import {
   IconChevronLeft,
@@ -305,8 +306,8 @@ export function ResultadosModal({
                     key={item.id}
                     className={cx("transition hover:bg-slate-50/80", carregando && "opacity-60")}
                   >
-                    <td className="px-4 py-2.5 font-mono text-xs font-medium text-slate-700">
-                      {item.rm}
+                    <td className="px-4 py-2.5 whitespace-nowrap">
+                      <RmDestaque rm={item.rm} variante="tabela" />
                     </td>
                     <td className="px-4 py-2.5">
                       <div className="flex items-center gap-2.5">

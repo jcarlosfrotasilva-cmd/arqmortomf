@@ -14,6 +14,7 @@ import {
   IconSpinner,
   IconUpload,
 } from "@/components/icons";
+import { RmDestaque } from "@/components/RmDestaque";
 import type { ResultadoImportacao } from "@/lib/types";
 
 type RespostaAnalise = ResultadoImportacao & {
@@ -279,7 +280,9 @@ export function ImportarView() {
                   {resultado.previa.map((linha) => (
                     <tr key={`${linha.linha}-${linha.rm}`} className="hover:bg-slate-50/70">
                       <td className="px-4 py-2 text-xs text-slate-400">{linha.linha}</td>
-                      <td className="px-4 py-2 font-mono text-xs text-slate-700">{linha.rm}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        <RmDestaque rm={linha.rm} variante="compacto" />
+                      </td>
                       <td className="px-4 py-2 text-slate-900">{linha.nome}</td>
                       <td className="px-4 py-2 text-slate-700">{linha.sobrenome}</td>
                       <td className="px-4 py-2">

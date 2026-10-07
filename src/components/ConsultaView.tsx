@@ -23,6 +23,7 @@ import {
   IconUpload,
   IconUsers,
 } from "@/components/icons";
+import { RmDestaque } from "@/components/RmDestaque";
 import { SeloOffline } from "@/components/ServicoApp";
 import { formatDate, initials } from "@/lib/text";
 
@@ -607,12 +608,12 @@ export function ConsultaView() {
                         <p className="truncate text-sm font-semibold text-slate-900">
                           {item.nome} {item.sobrenome}
                         </p>
-                        <p className="mt-0.5 flex flex-wrap items-center gap-1.5 text-xs text-slate-500">
-                          <span className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-medium text-slate-700">
-                            RM {item.rm}
+                        <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                          <RmDestaque rm={item.rm} variante="cartao" />
+                          <span className="text-xs text-slate-500">
+                            Cadastro: {formatDate(item.createdAt)}
                           </span>
-                          <span>Cadastro: {formatDate(item.createdAt)}</span>
-                        </p>
+                        </div>
                         {item.observacoes ? (
                           <p className="mt-1 line-clamp-2 text-xs text-slate-500">{item.observacoes}</p>
                         ) : null}
@@ -700,8 +701,8 @@ export function ConsultaView() {
                             className="h-4 w-4 cursor-pointer rounded border-slate-300 accent-teal-600"
                           />
                         </td>
-                        <td className="px-3 py-3 font-mono text-xs font-medium text-slate-700">
-                          {item.rm}
+                        <td className="px-3 py-3 whitespace-nowrap">
+                          <RmDestaque rm={item.rm} variante="tabela" />
                         </td>
                         <td className="px-3 py-3">
                           <div className="flex items-center gap-2.5">
@@ -828,8 +829,8 @@ export function ConsultaView() {
             <p className="font-semibold text-slate-900">
               {paraExcluir.nome} {paraExcluir.sobrenome}
             </p>
-            <p className="mt-1 text-slate-600">
-              RM <span className="font-mono">{paraExcluir.rm}</span>
+            <p className="mt-1 flex items-center gap-2 text-slate-600">
+              <RmDestaque rm={paraExcluir.rm} variante="compacto" />
             </p>
           </div>
         ) : null}

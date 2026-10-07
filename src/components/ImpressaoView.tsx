@@ -22,9 +22,9 @@ const LINHAS_OPCOES = [28, 32, 36, 40, 44, 48];
 const COLUNAS_OPCOES = [1, 2, 3, 4];
 
 const TAMANHOS = {
-  compacta: { registro: "9px", rm: "7.5px", titulo: "11px", meta: "8px", linha: "15px" },
-  normal: { registro: "10px", rm: "8px", titulo: "12px", meta: "8.5px", linha: "17px" },
-  ampliada: { registro: "11.5px", rm: "9px", titulo: "13px", meta: "9.5px", linha: "20px" },
+  compacta: { registro: "9px", rm: "10px", titulo: "11px", meta: "8px", linha: "15px" },
+  normal: { registro: "10px", rm: "11.5px", titulo: "12px", meta: "8.5px", linha: "17px" },
+  ampliada: { registro: "11.5px", rm: "13px", titulo: "13px", meta: "9.5px", linha: "20px" },
 } as const;
 
 type TamanhoFonte = keyof typeof TAMANHOS;
@@ -328,7 +328,7 @@ export function ImpressaoView({
               onChange={(evento) => setMostrarRm(evento.target.checked)}
               className="h-4 w-4 cursor-pointer rounded border-slate-300 accent-teal-700"
             />
-            Exibir o RM em cada registro
+            Exibir o RM em cada registro (sempre em negrito e fonte maior)
           </label>
           <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-700">
             <input
@@ -448,8 +448,8 @@ export function ImpressaoView({
                   >
                     {mostrarRm ? (
                       <span
-                        className="shrink-0 font-mono tabular-nums text-slate-500"
-                        style={{ fontSize: estilo.rm }}
+                        className="shrink-0 font-mono font-bold tabular-nums tracking-tight text-teal-900"
+                        style={{ fontSize: estilo.rm, minWidth: "4.5ch" }}
                       >
                         {item.rm}
                       </span>

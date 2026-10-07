@@ -105,7 +105,7 @@ export function ProntuarioModal({
       titulo={prontuario ? "Editar prontuário" : "Novo prontuário"}
       descricao={
         prontuario
-          ? `Registro RM ${prontuario.rm} — alterações são aplicadas imediatamente.`
+          ? `Alterações são aplicadas imediatamente no prontuário de RM ${prontuario.rm}.`
           : "Cadastre manualmente um prontuário que ainda não está no arquivo morto."
       }
       rodape={
